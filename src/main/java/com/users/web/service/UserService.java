@@ -14,5 +14,6 @@ public interface UserService {
     void save(User user);
     boolean existsById(long id);
     Optional<User> getByIdAsContainerObj(long id);
+    User getUserByName(String name);
     User getUserByNameAndPassword(String name, String password);
 }

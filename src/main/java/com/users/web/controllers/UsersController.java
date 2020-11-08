@@ -50,19 +50,24 @@ public class UsersController {
     /**
      * The action that is responsible for confirming the entered data for adding a new user. if there is no such user
      * in the database yet, it is saved with a redirect to the page with information about users, otherwise the template
-     * name is returned with the corresponding error
+     * name is returned with the corresponding error (if nothing is entered or only spaces are entered, the template
+     * with the input form is re-applied)
      *
      * @param name user name entered
      * @param password password entered
      * @param email email entered
      * @param model holder for model attributes
-     * @return template name with an error if the database has a user with the same name and password;
-     * redirect to the page with user information otherwise
+     * @return template name with an error if the database has a user with the same name;
+     * redirect to the page with user information otherwise;
+     * the name of the template with the input form, if nothing is entered or only spaces
      */
     @PostMapping("/users/add")
     public String userPostAdd(@RequestParam String name, @RequestParam String password,
                               @RequestParam String email, Model model) {
-        if (userService.getUserByNameAndPassword(name, password) != null) {
+        if (name.trim().isEmpty() || password.trim().isEmpty()) {
+            return "redirect:/users/add";
+        }
+        if (userService.getUserByName(name) != null) {
             return "users-add-error";
         }
         User user = new User(name, password, email);
@@ -93,18 +98,23 @@ public class UsersController {
 
     /**
      * Processing data received from the user editing form. By id the user is located in the database and a new
-     * ifnormation is entered in the database
+     * information is entered in the database. If nothing is entered or only spaces are entered, the template with
+     * the input form is re-applied
      *
      * @param id id of the user from the database whose information needs to be changed
      * @param name changed  user name
      * @param password changed  password
      * @param email changed email
      * @param model holder for model attributes
-     * @return name of the template with information about all dB users
+     * @return name of the template with information about all dB users;
+     * the name of the template with the input form, if nothing is entered or only spaces
      */
     @PostMapping("/users/edit/{id}")
     public String userPostUpdate(@PathVariable(value = "id") long id, @RequestParam String name,
                                  @RequestParam String password, @RequestParam String email, Model model) {
+        if (name.trim().isEmpty() || password.trim().isEmpty()) {
+            return "redirect:/users/edit/{id}";
+        }
         User user = userService.getUserById(id);
         user.setUserName(name);
         user.setPassword(password);
