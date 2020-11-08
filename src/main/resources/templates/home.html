@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MyWeb about users</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+
+<main role="main">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1>Home page</h1>
+            <p class="lead text-muted">On this promising site, you only have one choice...</p>
+            <p><a href="/sign_in" class="btn btn-secondary my-2">Sign in</a></p>
+        </div>
+    </section>
+
+<div th:insert="blocks/footer :: footer"></div>
+</main>
+</body>
+</html>

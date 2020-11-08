@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MyWeb about users</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+
+<div class="container mt-5">
+    <h1>Information about users</h1>
+    <table class="alert alert-info mt-2">
+        <tr><th>UserName</th><th>Password</th><th>Email</th></tr>
+        <tr th:each="el : ${users}">
+            <td th:text="${el.userName}"></td>
+            <td th:text="${el.password}"></td>
+            <td th:text="${el.email}"></td>
+            <td><a th:href="'/users/edit/'+ ${el.id}" class="btn btn-warning">Edit</a></td>
+            <td><form th:action="'/users/remove/' + ${el.id}" method="post">
+                <button class="btn btn-warning" type="submit">Remove</button>
+            </form></td>
+        </tr>
+    </table>
+        <a class="p-2 text-dark" href="/users/add">Add new user</a>
+</div>
+
+<div th:insert="blocks/footer :: footer"></div>
+</body>
+</html>
